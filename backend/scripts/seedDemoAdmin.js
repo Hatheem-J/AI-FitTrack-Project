@@ -6,87 +6,35 @@ dotenv.config();
 const connectDB = require("../src/config/db");
 const User = require("../src/models/User");
 
-
 const DEMO_ADMIN = {
-  name: "Demo Admin",
-  email: "demo.admin@aifittrack.com",
-  password: "DemoAdmin@12345",
+  name: "AI FitTrack Demo Admin",
+  email: process.env.DEMO_ADMIN_EMAIL || "demo.admin@aifittrack.local",
+  password: process.env.DEMO_ADMIN_PASSWORD || "AIFitTrackAdmin@12345",
 };
-
 
 const run = async () => {
   try {
     await connectDB();
-
-    console.log(
-      "\n=== AI FITTRACK DEMO ADMIN SEED ==="
-    );
-
-
-    let admin =
-      await User.findOne({
-        email: DEMO_ADMIN.email,
-      });
-
+    let admin = await User.findOne({ email: DEMO_ADMIN.email }).select("+password");
 
     if (!admin) {
-      admin =
-        await User.create({
-          name: DEMO_ADMIN.name,
-          email: DEMO_ADMIN.email,
-          password: DEMO_ADMIN.password,
-          role: "admin",
-        });
-
-
-      console.log(
-        "[CREATED] Demo Admin account"
-      );
+      admin = await User.create({ ...DEMO_ADMIN, role: "admin" });
+      console.log("[CREATED] AI FitTrack Demo Admin account");
     } else {
-      admin.name =
-        DEMO_ADMIN.name;
-
-      admin.role =
-        "admin";
-
-      admin.password =
-        DEMO_ADMIN.password;
-
+      admin.name = DEMO_ADMIN.name;
+      admin.role = "admin";
+      admin.password = DEMO_ADMIN.password;
       await admin.save();
-
-
-      console.log(
-        "[UPDATED] Demo Admin account"
-      );
+      console.log("[UPDATED] AI FitTrack Demo Admin account");
     }
 
-
-    console.log(
-      `Name : ${admin.name}`
-    );
-
-    console.log(
-      `Email: ${admin.email}`
-    );
-
-    console.log(
-      `Role : ${admin.role}`
-    );
-
-    console.log(
-      "\n[PASS] Demo Admin ready"
-    );
+    console.log(`[PASS] Demo Admin ready: ${admin.email}`);
   } catch (error) {
-    console.error(
-      "\n[FAIL]",
-      error.message
-    );
-
+    console.error("[FAIL]", error.message);
     process.exitCode = 1;
   } finally {
     await mongoose.disconnect();
   }
 };
-
 
 run();

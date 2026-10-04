@@ -587,7 +587,7 @@ export default function AdminConsole() {
                       type="monotone"
                       dataKey="duration"
                       name="Duration"
-                      stroke="#5268dc"
+                      stroke="#BE185D"
                       strokeWidth={
                         3
                       }
@@ -604,7 +604,7 @@ export default function AdminConsole() {
                       type="monotone"
                       dataKey="calories"
                       name="Calories"
-                      stroke="#aab5ee"
+                      stroke="#C084FC"
                       strokeWidth={
                         3
                       }
@@ -683,8 +683,8 @@ export default function AdminConsole() {
                                 index %
                                   2 ===
                                 0
-                                  ? "#5268dc"
-                                  : "#aab5ee"
+                                  ? "#BE185D"
+                                  : "#C084FC"
                               }
                             />
                           )

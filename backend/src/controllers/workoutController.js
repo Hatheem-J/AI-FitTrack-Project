@@ -1,6 +1,13 @@
 const mongoose = require("mongoose");
 const Workout = require("../models/Workout");
 
+const {
+  refreshWorkoutSearchMetadata,
+  semanticSearch,
+  atlasTextSearch,
+  sanitizeLimit,
+} = require("../services/workoutSearchService");
+
 // Create workout
 const createWorkout = async (req, res, next) => {
   try {
@@ -31,6 +38,8 @@ const createWorkout = async (req, res, next) => {
       caloriesBurned,
       workoutDate,
     });
+
+    await refreshWorkoutSearchMetadata(workout);
 
     res.status(201).json({
       success: true,
@@ -188,6 +197,8 @@ const updateWorkout = async (req, res, next) => {
 
     const updatedWorkout = await workout.save();
 
+    await refreshWorkoutSearchMetadata(updatedWorkout);
+
     res.status(200).json({
       success: true,
       message: "Workout updated successfully",
@@ -232,10 +243,87 @@ const deleteWorkout = async (req, res, next) => {
   }
 };
 
+// Semantic search over the authenticated user's workout history.
+// Uses MongoDB Atlas Vector Search when enabled, otherwise uses
+// Gemini embeddings + local cosine ranking against MongoDB documents.
+const semanticSearchWorkouts = async (req, res, next) => {
+  try {
+    const query = String(req.query.q || "").trim();
+
+    if (!query) {
+      res.status(400);
+      throw new Error("Semantic search query q is required");
+    }
+
+    const provider = String(req.query.provider || "auto").trim();
+    const limit = sanitizeLimit(req.query.limit);
+
+    const workouts = await semanticSearch({
+      userId: req.user._id,
+      query,
+      limit,
+      provider,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Semantic workout search completed successfully",
+      data: {
+        query,
+        provider,
+        workouts,
+      },
+    });
+  } catch (error) {
+    if (error.statusCode) {
+      res.status(error.statusCode);
+    }
+
+    next(error);
+  }
+};
+
+// MongoDB Atlas Search endpoint for lexical/fuzzy search.
+const atlasSearchWorkouts = async (req, res, next) => {
+  try {
+    const query = String(req.query.q || "").trim();
+
+    if (!query) {
+      res.status(400);
+      throw new Error("Atlas Search query q is required");
+    }
+
+    const limit = sanitizeLimit(req.query.limit);
+
+    const workouts = await atlasTextSearch({
+      userId: req.user._id,
+      query,
+      limit,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "MongoDB Atlas Search completed successfully",
+      data: {
+        query,
+        workouts,
+      },
+    });
+  } catch (error) {
+    if (error.statusCode) {
+      res.status(error.statusCode);
+    }
+
+    next(error);
+  }
+};
+
 module.exports = {
   createWorkout,
   getWorkouts,
   searchWorkouts,
+  semanticSearchWorkouts,
+  atlasSearchWorkouts,
   getWorkoutById,
   updateWorkout,
   deleteWorkout,

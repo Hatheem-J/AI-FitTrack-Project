@@ -4,6 +4,8 @@ const {
   createWorkout,
   getWorkouts,
   searchWorkouts,
+  semanticSearchWorkouts,
+  atlasSearchWorkouts,
   getWorkoutById,
   updateWorkout,
   deleteWorkout,
@@ -22,8 +24,10 @@ router
   .post(createWorkout)
   .get(getWorkouts);
 
-// Search must stay before /:id
+// Search routes must stay before /:id
 router.get("/search", searchWorkouts);
+router.get("/search/semantic", semanticSearchWorkouts);
+router.get("/search/atlas", atlasSearchWorkouts);
 
 // Get, update and delete by ID
 router

@@ -1,4 +1,4 @@
-﻿import { apiRequest } from "./api";
+import { apiRequest } from "./api";
 
 const getWorkouts = () =>
   apiRequest("/workouts");
@@ -28,6 +28,20 @@ const searchWorkouts = (workoutName) =>
     `/workouts/search?workoutName=${encodeURIComponent(
       workoutName ?? ""
     )}`
+  );
+
+const semanticSearchWorkouts = (query, { provider = "auto", limit = 10 } = {}) =>
+  apiRequest(
+    `/workouts/search/semantic?q=${encodeURIComponent(
+      query ?? ""
+    )}&provider=${encodeURIComponent(provider)}&limit=${encodeURIComponent(limit)}`
+  );
+
+const atlasSearchWorkouts = (query, { limit = 10 } = {}) =>
+  apiRequest(
+    `/workouts/search/atlas?q=${encodeURIComponent(
+      query ?? ""
+    )}&limit=${encodeURIComponent(limit)}`
   );
 
 /*
@@ -92,6 +106,8 @@ export const workoutService = {
   updateWorkout,
   deleteWorkout,
   searchWorkouts,
+  semanticSearchWorkouts,
+  atlasSearchWorkouts,
 
   list,
   search,

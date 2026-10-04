@@ -30,6 +30,8 @@ const errorHandler = (err, req, res, next) => {
     code = "NOT_FOUND";
   } else if (statusCode === 409) {
     code = "CONFLICT";
+  } else if (statusCode === 503) {
+    code = "SERVICE_UNAVAILABLE";
   }
 
   res.status(statusCode).json({

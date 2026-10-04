@@ -1,12 +1,16 @@
 {
-  "name": "backend",
+  "name": "ai-fittrack-backend",
   "version": "1.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "verify:v1.2": "node scripts/verifyV12Contracts.js"
+    "verify:v1.2": "node scripts/verifyV12Contracts.js",
+    "seed:demo": "node scripts/seedDemoAccounts.js",
+    "search:indexes": "node scripts/setupAtlasSearchIndexes.js",
+    "search:backfill": "node scripts/backfillWorkoutEmbeddings.js",
+    "verify:search": "node scripts/verifySearchImplementation.js"
   },
   "keywords": [],
   "author": "",

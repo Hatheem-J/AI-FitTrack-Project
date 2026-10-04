@@ -1,4 +1,4 @@
-﻿import AiRichText from "../../components/common/AiRichText";
+import AiRichText from "../../components/common/AiRichText";
 import {
   Bot,
   Dumbbell,
@@ -24,6 +24,54 @@ import {
   workoutService,
 } from "../../services/workoutService";
 
+const SEARCH_MODES = {
+  smart: {
+    label: "Smart Semantic",
+    helper: "Gemini embeddings with automatic Atlas Vector fallback",
+  },
+  atlas: {
+    label: "Atlas Text",
+    helper: "MongoDB Atlas Search text relevance",
+  },
+  vector: {
+    label: "Atlas Vector",
+    helper: "MongoDB Atlas Vector Search semantic relevance",
+  },
+};
+
+const searchRecordedWorkouts = (
+  searchQuery,
+  mode
+) => {
+  if (mode === "atlas") {
+    return workoutService.atlasSearchWorkouts(
+      searchQuery
+    );
+  }
+
+  if (mode === "vector") {
+    return workoutService.semanticSearchWorkouts(
+      searchQuery,
+      {
+        provider: "atlas",
+      }
+    );
+  }
+
+  return workoutService
+    .semanticSearchWorkouts(
+      searchQuery,
+      {
+        provider: "auto",
+      }
+    )
+    .catch(() =>
+      workoutService.searchWorkouts(
+        searchQuery
+      )
+    );
+};
+
 export default function WorkoutSearch() {
   const [
     params,
@@ -32,6 +80,15 @@ export default function WorkoutSearch() {
 
   const initialQuery =
     params.get("q") || "";
+
+  const requestedMode =
+    params.get("mode") ||
+    "smart";
+
+  const searchMode =
+    SEARCH_MODES[requestedMode]
+      ? requestedMode
+      : "smart";
 
   const [
     query,
@@ -68,7 +125,8 @@ export default function WorkoutSearch() {
    * by the URL query parameter below.
    */
   const runSearch = async (
-    searchQuery
+    searchQuery,
+    mode = searchMode
   ) => {
     const value =
       searchQuery.trim();
@@ -91,13 +149,14 @@ export default function WorkoutSearch() {
           value
         ),
 
-        workoutService
-          .searchWorkouts(value)
-          .catch(() => ({
-            data: {
-              workouts: [],
-            },
-          })),
+        searchRecordedWorkouts(
+          value,
+          mode
+        ).catch(() => ({
+          data: {
+            workouts: [],
+          },
+        })),
       ]);
 
       setAiResult(
@@ -143,15 +202,14 @@ export default function WorkoutSearch() {
         initialQuery
       ),
 
-      workoutService
-        .searchWorkouts(
-          initialQuery
-        )
-        .catch(() => ({
-          data: {
-            workouts: [],
-          },
-        })),
+      searchRecordedWorkouts(
+        initialQuery,
+        searchMode
+      ).catch(() => ({
+        data: {
+          workouts: [],
+        },
+      })),
     ])
       .then(
         ([
@@ -196,7 +254,7 @@ export default function WorkoutSearch() {
     return () => {
       active = false;
     };
-  }, [initialQuery]);
+  }, [initialQuery, searchMode]);
 
   const submit = (
     event
@@ -221,7 +279,10 @@ export default function WorkoutSearch() {
     if (
       currentQuery === value
     ) {
-      runSearch(value);
+      runSearch(
+        value,
+        searchMode
+      );
 
       return;
     }
@@ -238,7 +299,32 @@ export default function WorkoutSearch() {
 
     setParams({
       q: value,
+      mode: searchMode,
     });
+  };
+
+  const changeSearchMode = (
+    mode
+  ) => {
+    const nextParams =
+      new URLSearchParams(
+        params
+      );
+
+    nextParams.set(
+      "mode",
+      mode
+    );
+
+    if (query.trim()) {
+      nextParams.set(
+        "q",
+        query.trim()
+      );
+      setLoading(true);
+    }
+
+    setParams(nextParams);
   };
 
   return (
@@ -303,6 +389,54 @@ export default function WorkoutSearch() {
         </button>
       </form>
 
+      <section
+        className="workout-search-mode-panel"
+        aria-label="Workout search engine"
+      >
+        <div>
+          <span className="section-label">
+            SEARCH ENGINE
+          </span>
+
+          <strong>
+            {SEARCH_MODES[searchMode].label}
+          </strong>
+
+          <p>
+            {SEARCH_MODES[searchMode].helper}
+          </p>
+        </div>
+
+        <div className="workout-search-mode-switch">
+          {Object.entries(
+            SEARCH_MODES
+          ).map(
+            ([
+              mode,
+              config,
+            ]) => (
+              <button
+                key={mode}
+                type="button"
+                className={
+                  searchMode ===
+                  mode
+                    ? "active"
+                    : ""
+                }
+                onClick={() =>
+                  changeSearchMode(
+                    mode
+                  )
+                }
+              >
+                {config.label}
+              </button>
+            )
+          )}
+        </div>
+      </section>
+
       <div className="workout-search-suggestions">
         <button
           type="button"
@@ -358,7 +492,7 @@ export default function WorkoutSearch() {
       {loading && (
         <section className="ai-search-loading">
           <div className="ai-loader">
-            âœ¦
+            ✦
           </div>
 
           <strong>
@@ -449,8 +583,11 @@ export default function WorkoutSearch() {
 
                 <p>
                   Existing workouts
-                  matching your
-                  search.
+                  ranked with {
+                    SEARCH_MODES[
+                      searchMode
+                    ].label
+                  }.
                 </p>
               </div>
             </div>

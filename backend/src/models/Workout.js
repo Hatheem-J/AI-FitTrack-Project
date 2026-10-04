@@ -37,6 +37,32 @@ const workoutSchema = new mongoose.Schema(
       type: Date,
       required: [true, "Workout date is required"],
     },
+
+    // Search metadata used by semantic search and MongoDB Atlas Search.
+    // These fields are server-managed and are never accepted from client payloads.
+    searchText: {
+      type: String,
+      default: "",
+      select: false,
+    },
+
+    embedding: {
+      type: [Number],
+      default: undefined,
+      select: false,
+    },
+
+    embeddingModel: {
+      type: String,
+      default: null,
+      select: false,
+    },
+
+    embeddingUpdatedAt: {
+      type: Date,
+      default: null,
+      select: false,
+    },
   },
   {
     timestamps: true,

@@ -1,4 +1,4 @@
-﻿import {
+import {
   CalendarDays,
   Clock3,
   Dumbbell,
@@ -553,13 +553,13 @@ export default function Dashboard() {
       >
         <stop
           offset="0%"
-          stopColor="#5268dc"
+          stopColor="#7C3AED"
           stopOpacity={0.28}
         />
 
         <stop
           offset="100%"
-          stopColor="#5268dc"
+          stopColor="#7C3AED"
           stopOpacity={0.02}
         />
       </linearGradient>
@@ -573,13 +573,13 @@ export default function Dashboard() {
       >
         <stop
           offset="0%"
-          stopColor="#a9b2e9"
+          stopColor="#C084FC"
           stopOpacity={0.2}
         />
 
         <stop
           offset="100%"
-          stopColor="#a9b2e9"
+          stopColor="#C084FC"
           stopOpacity={0.01}
         />
       </linearGradient>
@@ -615,7 +615,7 @@ export default function Dashboard() {
     <Area
       type="natural"
       dataKey="duration"
-      stroke="#5268dc"
+      stroke="#7C3AED"
       strokeWidth={3}
       fill="url(#durationWave)"
       connectNulls
@@ -627,7 +627,7 @@ export default function Dashboard() {
     <Area
       type="natural"
       dataKey="calories"
-      stroke="#a9b2e9"
+      stroke="#C084FC"
       strokeWidth={2}
       fill="url(#calorieWave)"
       connectNulls

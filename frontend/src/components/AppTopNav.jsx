@@ -1,4 +1,4 @@
-﻿import {
+import {
   Activity,
   BarChart3,
   ChevronDown,
@@ -227,7 +227,7 @@ export default function AppTopNav() {
           <small>
             {isAdmin
               ? "ADMIN CONSOLE"
-              : "FITNESS AI"}
+              : "AI FITNESS PLATFORM"}
           </small>
         </div>
       </Link>

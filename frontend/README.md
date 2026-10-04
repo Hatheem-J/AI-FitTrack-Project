@@ -1,16 +1,21 @@
-# React + Vite
+# AI FitTrack — First Model Frontend (Video Style)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend-only React/Vite build styled to match the supplied `AI FitTrack(3).mp4` reference: light grey workspace, white top navigation, compact cards, indigo actions, horizontal user/admin navigation, Gemini search, AI Recommendation, Fitness Insights, Profile, Admin Console and floating chatbot.
 
-Currently, two official plugins are available:
+## Run
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```powershell
+Copy-Item .env.example .env
+npm install
+npm run dev
+```
 
-## React Compiler
+Backend default: `http://localhost:5000/api`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Search implementation UI
 
-## Expanding the ESLint configuration
+The Workout Search page keeps the implemented Smart Semantic, Atlas Text and Atlas Vector search options while preserving the reference layout.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Demo buttons
+
+The login screen includes Demo User / Demo Admin quick-access buttons to match the reference video. Configure their credentials in `.env` with the optional `VITE_DEMO_*` variables. No credentials are bundled in this ZIP.

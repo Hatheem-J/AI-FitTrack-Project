@@ -314,7 +314,7 @@ export default function Dashboard() {
                 <Line
                   type="monotone"
                   dataKey="duration"
-                  stroke="#5268dc"
+                  stroke="#7C3AED"
                   strokeWidth={3}
                   dot={{
                     r: 4,
@@ -324,7 +324,7 @@ export default function Dashboard() {
                 <Line
                   type="monotone"
                   dataKey="calories"
-                  stroke="#a5afdf"
+                  stroke="#C084FC"
                   strokeWidth={2}
                   dot={false}
                 />
