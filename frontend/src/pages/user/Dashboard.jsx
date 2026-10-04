@@ -553,13 +553,13 @@ export default function Dashboard() {
       >
         <stop
           offset="0%"
-          stopColor="#7C3AED"
+          stopColor="#5865D8"
           stopOpacity={0.28}
         />
 
         <stop
           offset="100%"
-          stopColor="#7C3AED"
+          stopColor="#5865D8"
           stopOpacity={0.02}
         />
       </linearGradient>
@@ -573,13 +573,13 @@ export default function Dashboard() {
       >
         <stop
           offset="0%"
-          stopColor="#C084FC"
+          stopColor="#8D97E9"
           stopOpacity={0.2}
         />
 
         <stop
           offset="100%"
-          stopColor="#C084FC"
+          stopColor="#8D97E9"
           stopOpacity={0.01}
         />
       </linearGradient>
@@ -615,7 +615,7 @@ export default function Dashboard() {
     <Area
       type="natural"
       dataKey="duration"
-      stroke="#7C3AED"
+      stroke="#5865D8"
       strokeWidth={3}
       fill="url(#durationWave)"
       connectNulls
@@ -627,7 +627,7 @@ export default function Dashboard() {
     <Area
       type="natural"
       dataKey="calories"
-      stroke="#C084FC"
+      stroke="#8D97E9"
       strokeWidth={2}
       fill="url(#calorieWave)"
       connectNulls

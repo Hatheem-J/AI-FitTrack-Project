@@ -20,8 +20,6 @@ build/
 .idea/
 .DS_Store
 Thumbs.db
-
-# Local backup / temporary files
 *.bak
 *.before-*
 *.role-guard-backup

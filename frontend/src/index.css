@@ -2439,7 +2439,7 @@ a {
   border-radius: 7px;
 
   color:
-    #BE185D;
+    #4754C7;
 
   background:
     #FFF1F7;
@@ -4234,7 +4234,7 @@ a {
 
 .workout-card-actions button.danger {
   color:
-    #BE185D;
+    #4754C7;
 }
 
 .workout-card-actions button.danger:hover {
@@ -5667,7 +5667,7 @@ a {
   border-radius: 6px;
 
   color:
-    #BE185D;
+    #4754C7;
 
   background:
     #FFF1F7;
@@ -6278,7 +6278,7 @@ a {
 .role-navbar.admin-mode
 .role-brand small {
   color:
-    #BE185D;
+    #4754C7;
 }
 
 .role-navbar.admin-mode
@@ -6287,7 +6287,7 @@ a {
     #D7DCFF;
 
   color:
-    #BE185D;
+    #4754C7;
 
   background:
     #FFF1F7;
@@ -6783,7 +6783,7 @@ a {
 }
 
 .role-navbar.admin-mode {
-  box-shadow: 0 8px 24px color-mix(in srgb, #BE185D 10%, transparent);
+  box-shadow: 0 8px 24px color-mix(in srgb, #4754C7 10%, transparent);
 }
 
 .role-navbar.user-mode {

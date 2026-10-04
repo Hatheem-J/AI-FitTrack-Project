@@ -1,3 +1,7 @@
+# AI FitTrack — Original Blue / Indigo Frontend
+
+Theme corrected to Blue / Indigo + White + Light Grey. Backend contract is unchanged.
+
 # AI FitTrack — First Model Frontend (Video Style)
 
 Frontend-only React/Vite build styled to match the supplied `AI FitTrack(3).mp4` reference: light grey workspace, white top navigation, compact cards, indigo actions, horizontal user/admin navigation, Gemini search, AI Recommendation, Fitness Insights, Profile, Admin Console and floating chatbot.
